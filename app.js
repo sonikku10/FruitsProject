@@ -5,20 +5,26 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/fruitsDB", { useUnifiedTopology: true , useNewUrlParser: true });
 
 const fruitSchema = new mongoose.Schema({
-  name: String,
-  rating: Number,
+  name: {
+    type: String,
+    required: [true, "What fruit tho?"]
+  },
+  rating: {
+    type: Number,
+    min: 0,
+    max: 10
+  },
   review: String
 });
 
 const Fruit = mongoose.model("Fruit", fruitSchema);
 
 const fruit = new Fruit ({
-  name: "Apple",
-  rating: 7,
-  review: "Pretty solid as a fruit. Can't really hate on them."
+  rating: 10,
+  review: "I love peaches!"
 });
 
-//fruit.save();
+fruit.save();
 
 const personSchema = new mongoose.Schema({
   name: String,
@@ -34,31 +40,6 @@ const person = new Person ({
 
 //person.save();
 
-const kiwi = new Fruit ({
-  name: "Kiwi",
-  rating: 10,
-  review: "The best fruit!"
-});
-
-const orange = new Fruit({
-  name: "Orange",
-  rating: 4,
-  review: "Too sour for me."
-});
-
-const banana = new Fruit({
-  name: "Banana",
-  rating: 2,
-  review: "I don't like minions."
-});
-
-// Fruit.insertMany([kiwi, orange, banana], function(err){
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log("Successfully saved all the fruits to fruitsDB");
-//   }
-// });
 
 
 Fruit.find(function(err, fruits) {
